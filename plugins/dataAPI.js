@@ -1,0 +1,113 @@
+import { unwrap, getErrorResponse } from '@/utils/fetchUtils'
+
+export default function( { $config }, inject){
+  const appId = $config.algolia.appId
+  const apiKey = $config.algolia.apiKey
+  const headers = {
+    'X-Algolia-API-Key': apiKey,
+    'X-Algolia-Application-Id': appId
+  }
+  const apiBase = `https://${appId}-dsn.algolia.net/1`
+
+  inject('dataApi', {
+    getHome,
+    getHomes,
+    getReviewsByHomeId,
+    getUserByHomeId,
+    getHomesByLocation
+  })
+
+  async function getHome(homeId){
+    try {
+      return unwrap(
+        await fetch(`${apiBase}/indexes/homes/${homeId}`, { headers })
+      )
+    } catch (error) {
+      return getErrorResponse(error)
+    }
+  }
+
+  async function getReviewsByHomeId(homeId){
+    try {
+      const query = {
+        filters: `homeId:${homeId}`,
+        hitsPerPage: 6,
+        attributesToHighlight: []
+      }
+      return unwrap(
+        await fetch(`${apiBase}/indexes/reviews/query`, { 
+          headers,
+          method: 'POST',
+          body: JSON.stringify(query)
+        })
+      )
+    } catch (error) {
+      return getErrorResponse(error)
+    }
+  }
+
+  async function getUserByHomeId(homeId){
+    try {
+      const query = {
+        filters: `homeId:${homeId}`,
+        attributesToHighlight: []
+      }
+      return unwrap(
+        await fetch(`${apiBase}/indexes/users/query`, { 
+          headers,
+          method: 'POST',
+          body: JSON.stringify(query)
+        })
+      )
+    } catch (error) {
+      return getErrorResponse(error)
+    }
+  }
+
+  async function getHomesByLocation({lat, lng, start = 0, end = 0, radiusInMeters = 20000}){
+    try {
+      const query = {
+        aroundLatLng: `${lat},${lng}`,
+        aroundRadius: radiusInMeters,
+        hitsPerPage: 10,
+        attributesToHighlight: []
+      }
+      if(start && end){
+        const days = []
+        for(var day = start; day <= end; day += 86400){
+          days.push(`availability:${day}`)
+        }
+        query.filters = days.join(' AND ')
+      }
+      
+      return unwrap(
+        await fetch(`${apiBase}/indexes/homes/query`, { 
+          headers,
+          method: 'POST',
+          body: JSON.stringify(query)
+        })
+      )
+    } catch (error) {
+      return getErrorResponse(error)
+    }
+  }
+
+  async function getHomes(){
+    try {
+      const query = {
+        hitsPerPage: 4,
+        attributesToHighlight: []
+      }
+      return unwrap(
+        await fetch(`${apiBase}/indexes/homes/query`, { 
+          headers,
+          method: 'POST',
+          body: JSON.stringify(query)
+        })
+      )
+    } catch (error) {
+      return getErrorResponse(error)
+    }
+  }
+
+}
