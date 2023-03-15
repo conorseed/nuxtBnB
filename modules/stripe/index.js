@@ -8,6 +8,7 @@ export default function(){
   const apis = getApis(algoliaConfig)
   const cloudName = this.options.cloudinary.cloudName
   const stripe = stripeLib(this.options.privateRuntimeConfig.stripe.secret)
+  const rootUrl = this.options.rootUrl
 
   this.nuxt.hook('render:setupMiddleware', (app)=>{
     app.use('/api/stripe/create-session', createSession)
@@ -30,8 +31,8 @@ export default function(){
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
-        success_url: `http://localhost:3000/home/${body.homeId}?result=success`,
-        cancel_url: `http://localhost:3000/home/${body.homeId}?result=cancel`,
+        success_url: `${rootUrl}/home/${body.homeId}?result=success`,
+        cancel_url: `${rootUrl}/home/${body.homeId}?result=cancel`,
         line_items: [{
           quantity: 1,
           price_data: {

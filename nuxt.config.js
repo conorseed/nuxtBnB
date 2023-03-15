@@ -1,4 +1,5 @@
 export default{
+  rootUrl: process.env.NODE_ENV === 'production' ? 'https://nuxt-bn-b-sooty.vercel.app' : 'http://localhost:3000',
   telemetry: false,
   components: true,
   head: {
