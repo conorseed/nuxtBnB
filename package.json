@@ -1,23 +1,24 @@
 {
   "name": "nuxtbnb",
   "dependencies": {
+    "@nuxtjs/cloudinary": "1.0.3-beta-3",
+    "body-parser": "1.19.0",
     "cloudinary-vue": "1.1.2",
     "cookie": "0.4.1",
     "google-auth-library": "7.0.2",
     "js-cookie": "2.2.1",
     "jwt-decode": "^3.1.2",
-    "nuxt-edge": "^2.16.0-27720022.54e852f",
+    "nuxt": "2.14.7",
     "stripe": "8.148.0",
     "uuid": "8.3.2",
     "v-calendar": "2.3.0"
   },
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "start": "nuxt preview"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start"
   },
   "devDependencies": {
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge",
     "@nuxt/image": "0.4.7",
     "@nuxtjs/tailwindcss": "3.4.2",
     "sass": "1.32.5",
