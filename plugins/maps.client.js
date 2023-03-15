@@ -18,7 +18,6 @@ export default (context, inject)=>{
   }
 
   function init(){
-    console.log('maps loaded')
     isLoaded = true
     waiting.forEach(item => {
       if(typeof item.fn === 'function'){

@@ -18,7 +18,6 @@ export default function({$config}, inject){
   }
 
   function initStripe(){
-    console.log('initing', $config.stripe.public)
     stripe = window.Stripe($config.stripe.public)
   }
 

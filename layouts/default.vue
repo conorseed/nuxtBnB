@@ -5,7 +5,7 @@
         <img src="/images/logo.svg" alt="Nuxt BnB" />
       </nuxt-link>
       <div class="app-search">
-        <input type="text" ref="citySearch" @changed="changed" placeholder="Enter your address" />
+        <input type="text" ref="citySearch" @changed="changed" placeholder="Enter a city" />
         <client-only>
           <template #placeholder>
               <input class="datepicker" />
@@ -41,8 +41,6 @@
       </div>
       <div class="app-user-menu">
         <template v-if="isLoggedIn">
-          <img src="/images/icons/house.svg" alt="Home" />
-          <div class="name">Host</div>
           <img :src="user.profileUrl" :alt="user.name" class="avatar" referrerpolicy="no-referrer" width="48" height="48" />
         </template>
         <div v-show="!isLoggedIn" id="googleButton" class="ml-8">
@@ -77,8 +75,8 @@ export default {
         label: ''
       },
       range: {
-        start: new Date(),
-        end: new Date()
+        start: null,
+        end: null
       }
     }
   },
@@ -95,7 +93,7 @@ export default {
       this.location.label = this.$refs.citySearch.value
     },
     search(){
-      if(!this.location.label) return
+      if(!this.location.label || !this.range.start || !this.range.end) return
 
       this.$router.push({
         name: 'search',

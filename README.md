@@ -1,3 +1,3 @@
 # 🏠 NuxtBnB
 
-A basic AirBnB clone built using Nuxt 2, Algolia, Google Auth and Stripe.
+NuxtBnB is a basic AirBnB clone that uses Nuxt 2, Cloudinary, Stripe, Google Maps and Algolia.

@@ -91,7 +91,14 @@ export default{
   methods:{
     pluralize,
     checkout(){
-      if( !this.range.start || !this.range.end ) return
+      if(!this.range.start || !this.range.end) {
+        alert('Please select a start and end date')
+        return
+      }
+      if(this.range.start.toString() == this.range.end.toString()){
+        alert('Start and end dates must be at least 1 day apart')
+        return
+      }
       const start = this.range.start.getTime() / 1000
       const end = this.range.end.getTime() / 1000
 

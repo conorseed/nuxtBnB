@@ -7,6 +7,7 @@
         <nuxt-link v-for="home in homes" :key="home.objectID" :to="`/home/${home.objectID}`">
           <home-row class="app-house" :home="home" @mouseover.native="highlightMarker(home.objectID, true)" @mouseout.native="highlightMarker(home.objectID, false)" />
         </nuxt-link>
+        <div v-if="homes.length == 0">No homes found, try another city.</div>
       </div>
 
       <div class="app-search-results-map">
@@ -70,7 +71,7 @@ export default{
 </script>
 
 <style>
-.map-results .marker{
+.marker{
   background: white;
   border: 1px solid lightgray;
   font-weight: bold;
@@ -78,7 +79,7 @@ export default{
   padding: 5px 8px;
   transition: all ease 0.3s;
 }
-.map-results .marker-highlight{
+.marker-highlight{
   color: white !important;
   background-color: black;
   border-color: black;
