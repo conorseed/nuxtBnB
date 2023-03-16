@@ -8,6 +8,8 @@ export default defineEventHandler(async (event) => {
     const meta = body.data.object.metadata;
     const algoliaAPI = getApi(config.algolia)
 
+    console.log('meta from webhook', meta)
+
     try {
         await fetch(
             `${algoliaAPI.apiBase}/indexes/bookings/`,
