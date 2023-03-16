@@ -19,7 +19,8 @@ export default defineEventHandler(async (event) => {
     }
 
     const nights = (body.end - body.start) / 86400;
-    const stripe = stripeLib(config.stripe.secretKey);
+    const stripe = stripeLib(config.stripe.secret);
+    
     let home = null;
 
     try {
@@ -45,8 +46,8 @@ export default defineEventHandler(async (event) => {
         },
         payment_method_types: ["card"],
         mode: "payment",
-        success_url: `${config.rootUrl}/home/${body.homeId}?result=success`,
-        cancel_url: `${config.rootUrl}/home/${body.homeId}?result=cancel`,
+        success_url: `${config.public.rootUrl}/home/${body.homeId}?result=success`,
+        cancel_url: `${config.public.rootUrl}/home/${body.homeId}?result=cancel`,
         line_items: [
             {
                 quantity: 1,

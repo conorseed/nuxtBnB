@@ -25,12 +25,12 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-async function getUser(idToken){
-  const client = new OAuth2Client(authConfig.clientId)
+async function getUser(idToken, config){
+  const client = new OAuth2Client(config.public.auth.clientId)
   try {
     const ticket = await client.verifyIdToken({
       idToken,
-      audience: authConfig.clientId
+      audience: config.public.auth.clientId
     })
     return ticket.getPayload()
   } catch (error) {

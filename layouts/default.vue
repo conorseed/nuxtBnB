@@ -41,6 +41,7 @@
       </div>
       <div class="app-user-menu">
         <template v-if="isLoggedIn">
+          <button @click="signOut">Logout</button>
           <img :src="user.profileUrl" :alt="user.name" class="avatar" referrerpolicy="no-referrer" width="48" height="48" />
         </template>
         <div v-show="!isLoggedIn" id="googleButton" class="ml-8">
@@ -103,6 +104,9 @@ export default {
           end: this.range.end.getTime() / 1000
         } 
       })
+    },
+    signOut(){
+      this.$auth.signOut()
     }
   },
   computed: {
