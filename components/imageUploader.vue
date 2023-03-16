@@ -51,7 +51,7 @@ export default{
         const formData = new FormData()
         formData.append('file', data)
         formData.append('timestamp', now)
-        formData.append('public_id', filename)
+        formData.append('public_id', fileName)
         formData.append('api_key', this.$config.public.cloudinary.apiKey)
         formData.append('signature', signature)
 
