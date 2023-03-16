@@ -4,8 +4,7 @@
     <nuxt-img 
     class="app-house-header" provider="cloudinary"
     width="360" height="200"
-    :src="home.images[0]" 
-    :modifiers="{ effect: 'grayscale', opacity: 50 }"
+    :src="home.images[0]"
     />
     <div class="app-house-body">
       <!-- <img src="/images/icons/heart.svg" alt="Favourite this house" class="app-fav" /> -->

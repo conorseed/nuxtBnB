@@ -95,7 +95,7 @@ export default function( { $config }, inject){
   async function getHomes(){
     try {
       const query = {
-        hitsPerPage: 4,
+        hitsPerPage: 3,
         attributesToHighlight: []
       }
       return unWrap(
