@@ -1,8 +1,8 @@
-import { unwrap, getErrorResponse } from '@/utils/fetchUtils'
+import { unWrap, getErrorResponse } from '@/utils/fetchUtils'
 
 export default function( { $config }, inject){
-  const appId = $config.algolia.appId
-  const apiKey = $config.algolia.apiKey
+  const appId = $config.public.algolia.appId
+  const apiKey = $config.public.algolia.apiKey
   const headers = {
     'X-Algolia-API-Key': apiKey,
     'X-Algolia-Application-Id': appId
@@ -19,7 +19,7 @@ export default function( { $config }, inject){
 
   async function getHome(homeId){
     try {
-      return unwrap(
+      return unWrap(
         await fetch(`${apiBase}/indexes/homes/${homeId}`, { headers })
       )
     } catch (error) {
@@ -34,7 +34,7 @@ export default function( { $config }, inject){
         hitsPerPage: 6,
         attributesToHighlight: []
       }
-      return unwrap(
+      return unWrap(
         await fetch(`${apiBase}/indexes/reviews/query`, { 
           headers,
           method: 'POST',
@@ -52,7 +52,7 @@ export default function( { $config }, inject){
         filters: `homeId:${homeId}`,
         attributesToHighlight: []
       }
-      return unwrap(
+      return unWrap(
         await fetch(`${apiBase}/indexes/users/query`, { 
           headers,
           method: 'POST',
@@ -80,7 +80,7 @@ export default function( { $config }, inject){
         query.filters = days.join(' AND ')
       }
       
-      return unwrap(
+      return unWrap(
         await fetch(`${apiBase}/indexes/homes/query`, { 
           headers,
           method: 'POST',
@@ -98,7 +98,7 @@ export default function( { $config }, inject){
         hitsPerPage: 4,
         attributesToHighlight: []
       }
-      return unwrap(
+      return unWrap(
         await fetch(`${apiBase}/indexes/homes/query`, { 
           headers,
           method: 'POST',

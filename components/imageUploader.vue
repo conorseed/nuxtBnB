@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { unwrap } from '@/utils/fetchUtils'
+import { unWrap } from '@/utils/fetchUtils'
 
 export default{
   data(){
@@ -21,21 +21,23 @@ export default{
         const file = event.target.files[0]
         if(!file) return
 
-        const fileName = file.name.split('.').slice(0, -1).join('.') + Date.now()
+        const now = Date.now()
+
+        const fileName = file.name.split('.').slice(0, -1).join('.') + now
         const options = {
-          timestamp: Date.now(),
+          timestamp: now,
           public_id: fileName
         }
 
         // GET HASH
-        const response = await unwrap(await fetch('/api/cloudinary/signature', {
+        const resp = await unWrap(await fetch('/api/cloudinary/signature', {
           method: 'POST',
           body: JSON.stringify(options),
           headers: {
             'Content-Type': 'application/json'
           }
         }))
-        const signature = response.json.signature
+        const signature = resp.json.signature
         
         // file reader
         const readData = (fileObj) => new Promise((resolve) => {
@@ -46,11 +48,19 @@ export default{
         const data = await readData(file)
 
         // upload to cloudinary
-        const asset = await this.$cloudinary.upload(data, {
-          ...options,
-          apiKey: this.$config.cloudinary.apiKey,
-          signature
+        const formData = new FormData()
+        formData.append('file', data)
+        formData.append('timestamp', now)
+        formData.append('public_id', filename)
+        formData.append('api_key', this.$config.public.cloudinary.apiKey)
+        formData.append('signature', signature)
+
+        const resp2 = await fetch(`https://api.cloudinary.com/v1_1/${this.$config.public.cloudinary.cloudName}/upload`, {
+          method: 'POST',
+          body: formData
         })
+
+        const asset = await resp2.json()
 
         if('error' in asset){
           throw new Error('Image couldn\'t be uploaded. Please try again.')

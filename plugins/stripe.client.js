@@ -1,4 +1,4 @@
-import { unwrap, getErrorResponse } from '@/utils/fetchUtils'
+import { unWrap, getErrorResponse } from '@/utils/fetchUtils'
 
 export default function({$config}, inject){
 
@@ -18,12 +18,12 @@ export default function({$config}, inject){
   }
 
   function initStripe(){
-    stripe = window.Stripe($config.stripe.public)
+    stripe = window.Stripe($config.public.stripe.public)
   }
 
   async function createSession({ homeId, start, end}){
     try {
-      return unwrap(
+      return unWrap(
         await fetch(`/api/stripe/create-session`, { 
           headers: {
             'Content-Type': 'application/json'

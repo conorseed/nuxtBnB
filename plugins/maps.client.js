@@ -1,4 +1,4 @@
-export default (context, inject)=>{
+export default ({$config}, inject)=>{
   let isLoaded = false
   let waiting = []
   
@@ -12,7 +12,7 @@ export default (context, inject)=>{
   
   function addScript(){
     const script = document.createElement('script')
-    script.src = 'https://maps.googleapis.com/maps/api/js?key='+process.env.mapsApiKey+'&libraries=places&callback=initGoogleMaps'
+    script.src = 'https://maps.googleapis.com/maps/api/js?key='+$config.public.mapsApiKey+'&libraries=places&callback=initGoogleMaps'
     script.async = true
     document.head.appendChild(script)
   }

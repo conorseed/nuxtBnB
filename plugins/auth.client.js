@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { unwrap } from '@/utils/fetchUtils'
+import { unWrap } from '@/utils/fetchUtils'
 
 export default ( { $config, store }, inject) => {
   const loaded = false
@@ -24,19 +24,19 @@ export default ( { $config, store }, inject) => {
       if(response){
         // Set cookie
         const token = response.credential
-        Cookies.set($config.auth.cookieName, token, {
+        Cookies.set($config.public.auth.cookieName, token, {
           expires: 1 / 24,
           sameSite: "Lax",
         })
       }
       // make sure cookie exists
-      if(!Cookies.get($config.auth.cookieName)){
+      if(!Cookies.get($config.public.auth.cookieName)){
         if(!loaded) addScript()
         return
       }
 
       // get user
-      const res = await unwrap( await fetch('/api/user') )
+      const res = await unWrap( await fetch('/api/user') )
       const user = res.json
       
       // store user
@@ -52,7 +52,7 @@ export default ( { $config, store }, inject) => {
 
   function signOut(){
     if(!loaded) addScript()
-    Cookies.remove($config.auth.cookieName)
+    Cookies.remove($config.public.auth.cookieName)
     store.commit('auth/user', null)
   }
 }

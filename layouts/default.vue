@@ -46,7 +46,7 @@
         <div v-show="!isLoggedIn" id="googleButton" class="ml-8">
           <div
             id="g_id_onload"
-            :data-client_id="$config.auth.clientId"
+            :data-client_id="$config.public.auth.clientId"
             data-auto_select="true"
             data-callback="auth"
           ></div>

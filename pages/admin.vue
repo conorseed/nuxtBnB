@@ -17,7 +17,7 @@ export default{
     }
   },
   asyncData({ $config, redirect }){
-    if(!Cookies.get($config.auth.cookieName)){
+    if(!Cookies.get($config.public.auth.cookieName)){
       redirect('/no-access/')
       return
     }

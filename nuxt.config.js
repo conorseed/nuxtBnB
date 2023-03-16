@@ -1,6 +1,13 @@
-export default{
-  rootUrl: process.env.NODE_ENV === 'production' ? 'https://nuxt-bn-b-sooty.vercel.app' : 'http://localhost:3000',
-  telemetry: false,
+import { defineNuxtConfig } from "@nuxt/bridge"
+
+export default defineNuxtConfig({
+  nitro:{
+    routeRules: {
+      '/admin': {
+          ssr: false,
+      }
+    },
+  },
   components: true,
   head: {
     titleTemplate: 'Nuxt BnB | %s',
@@ -14,26 +21,7 @@ export default{
   router:{
     prefetchLinks: false
   },
-  env: {
-    mapsApiKey: process.env.MAPS_API_KEY
-  },
-  publicRuntimeConfig:{
-    auth: {
-      cookieName: 'idToken',
-      clientId: process.env.OAUTH_CLIENT_ID
-    },
-    algolia: {
-      appId: process.env.ALGOLIA_APP_ID,
-      apiKey: process.env.ALGOLIA_API_KEY
-    },
-    cloudinary: {
-      apiKey: process.env.CLOUDINARY_API_KEY
-    },
-    stripe: {
-      public: process.env.STRIPE_PUBLIC
-    }
-  },
-  privateRuntimeConfig:{
+  runtimeConfig:{
     algolia: {
       appId: process.env.ALGOLIA_APP_ID,
       apiKey: process.env.ALGOLIA_ADMIN_KEY
@@ -44,31 +32,38 @@ export default{
     stripe: {
       public: process.env.STRIPE_PUBLIC,
       secret: process.env.STRIPE_SECRET
+    },
+    public: {
+      rootUrl: process.env.NODE_ENV === 'production' ? 'https://nuxt-bn-b-sooty.vercel.app' : 'http://localhost:3000',
+      mapsApiKey: process.env.MAPS_API_KEY,
+      auth: {
+        cookieName: 'idToken',
+        clientId: process.env.OAUTH_CLIENT_ID
+      },
+      algolia: {
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_API_KEY
+      },
+      cloudinary: {
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY
+      },
+      stripe: {
+        public: process.env.STRIPE_PUBLIC
+      }
     }
   },
   plugins: [
     '@/plugins/maps.client',
-    '@/plugins/auth.client',
     '@/plugins/dataAPI',
+    '@/plugins/auth.client',
     '@/plugins/vCalendar.client',
     '@/plugins/stripe.client'
-  ],
-  modules: [
-    '@/modules/auth',
-    '@/modules/algolia',
-    '@/modules/stripe',
-    '@/modules/cloudinary',
-    '@nuxtjs/cloudinary'
   ],
   buildModules: [
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
   ],
-  cloudinary:{
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    apiKey: process.env.CLOUDINARY_API_KEY,
-    apiSecret: process.env.CLOUDINARY_SECRET
-  },
   image: {
     cloudinary: {
       baseURL: 'https://res.cloudinary.com/'+process.env.CLOUDINARY_CLOUD_NAME+'/image/upload/'
@@ -79,6 +74,15 @@ export default{
     extractCSS: true,
     loaders: {
         limit: 0,
-    }
+    },
+    transpile: ['iron-webcrypto'],
+    postcss: {
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
+      },
+    },
   },
-}
+})

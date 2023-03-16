@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { unwrap } from '@/utils/fetchUtils'
+import { unWrap } from '@/utils/fetchUtils'
 
 export default{
   head(){
@@ -137,7 +137,7 @@ export default{
     },
     async setHomesList(){
       try {
-        const hits = await unwrap( await fetch('/api/homes/user/') )
+        const hits = await unWrap( await fetch('/api/homes/user/') )
         this.homeList = hits.json
       } catch (error) {
         console.error(error)
@@ -168,7 +168,7 @@ export default{
       return parts.find(part => part.types.includes(type))
     },
     async onSubmit(){
-      const response = await unwrap(await fetch('/api/homes', {
+      const response = await unWrap(await fetch('/api/homes', {
         method: 'POST',
         body: JSON.stringify(this.home),
         headers: {
